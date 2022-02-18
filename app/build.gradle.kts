@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,6 +50,15 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
+    buildTypes.forEach {
+        val properties = Properties()
+        properties.load(FileInputStream(file("./../conf.properties")))
+
+        //Yandex
+        val yandexKey = properties.getProperty("yandex_key", "")
+        it.buildConfigField("String", "YANDEX_KEY", yandexKey)
+    }
 }
 
 dependencies {
@@ -68,6 +78,9 @@ dependencies {
 
     // ViewBindingPropertyDelegate
     implementation(ViewBindingDelegate.DELEGATE)
+
+    // Yandex MapKit
+    implementation(Map.YANDEX_MAP_KIT)
 
     // Tests
     testImplementation(Tests.JUNIT)

@@ -24,6 +24,9 @@ object LibVersion {
     // ViewBindingPropertyDelegate
     const val VIEW_BINDING_DELEGATE_VERSION = "1.5.6"
 
+    // Yandex MapKit
+    const val YANDEX_MAP_KIT_VERSION = "3.5.0"
+
     // Tests
     const val JUNIT_VERSION = "4.13.2"
     const val TEST_EXT_JUNIT_VERSION = "1.1.3"
@@ -56,6 +59,10 @@ object LifeCycle {
 object ViewBindingDelegate {
     const val DELEGATE =
         "com.github.kirich1409:viewbindingpropertydelegate:${LibVersion.VIEW_BINDING_DELEGATE_VERSION}"
+}
+
+object Map {
+    const val YANDEX_MAP_KIT = "com.yandex.android:mapkit:${LibVersion.YANDEX_MAP_KIT_VERSION}"
 }
 
 object Tests {
