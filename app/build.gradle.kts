@@ -66,6 +66,9 @@ dependencies {
     implementation(LifeCycle.LIVEDATA_KTX)
     implementation(LifeCycle.VIEW_MODEL_KTX)
 
+    // ViewBindingPropertyDelegate
+    implementation(ViewBindingDelegate.DELEGATE)
+
     // Tests
     testImplementation(Tests.JUNIT)
     androidTestImplementation(Tests.TEST_EXT_JUNIT)

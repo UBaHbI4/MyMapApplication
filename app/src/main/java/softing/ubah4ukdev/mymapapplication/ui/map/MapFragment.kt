@@ -1,42 +1,23 @@
 package softing.ubah4ukdev.mymapapplication.ui.map
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import by.kirich1409.viewbindingdelegate.viewBinding
+import softing.ubah4ukdev.mymapapplication.R
 import softing.ubah4ukdev.mymapapplication.databinding.FragmentMapBinding
 
-class MapFragment : Fragment() {
+class MapFragment : Fragment(R.layout.fragment_map) {
 
-    private var _binding: FragmentMapBinding? = null
+    private val viewBinding: FragmentMapBinding by viewBinding()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val mapViewModel =
+            ViewModelProvider(this)[MapViewModel::class.java]
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(MapViewModel::class.java)
-
-        _binding = FragmentMapBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        mapViewModel.text.observe(viewLifecycleOwner) {
+            viewBinding.textMap.text = it
         }
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

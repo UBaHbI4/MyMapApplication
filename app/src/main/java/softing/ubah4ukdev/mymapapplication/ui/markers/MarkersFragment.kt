@@ -1,42 +1,23 @@
 package softing.ubah4ukdev.mymapapplication.ui.markers
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import by.kirich1409.viewbindingdelegate.viewBinding
+import softing.ubah4ukdev.mymapapplication.R
 import softing.ubah4ukdev.mymapapplication.databinding.FragmentMarkersBinding
 
-class MarkersFragment : Fragment() {
+class MarkersFragment : Fragment(R.layout.fragment_markers) {
 
-    private var _binding: FragmentMarkersBinding? = null
+    private val viewBinding: FragmentMarkersBinding by viewBinding()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val markersViewModel =
+            ViewModelProvider(this)[MarkersViewModel::class.java]
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(MarkersViewModel::class.java)
-
-        _binding = FragmentMarkersBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        markersViewModel.text.observe(viewLifecycleOwner) {
+            viewBinding.textMarkers.text = it
         }
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
