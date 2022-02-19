@@ -5,6 +5,7 @@ import java.util.*
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 val sdf = SimpleDateFormat("yyyy.M.dd")
@@ -19,6 +20,12 @@ android {
         targetSdk = Config.TARGET_SDK
         versionCode = Config.VERSION_CODE
         versionName = currentDate
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+            }
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -81,6 +88,12 @@ dependencies {
 
     // Yandex MapKit
     implementation(Map.YANDEX_MAP_KIT)
+
+    // Room
+    kapt(Room.COMPILER)
+    implementation(Room.KTX)
+    implementation(Room.RUN_TIME)
+    annotationProcessor(Room.COMPILER)
 
     // Tests
     testImplementation(Tests.JUNIT)

@@ -27,6 +27,9 @@ object LibVersion {
     // Yandex MapKit
     const val YANDEX_MAP_KIT_VERSION = "3.5.0"
 
+    // Room
+    const val ROOM_VERSION = "2.4.1"
+
     // Tests
     const val JUNIT_VERSION = "4.13.2"
     const val TEST_EXT_JUNIT_VERSION = "1.1.3"
@@ -63,6 +66,13 @@ object ViewBindingDelegate {
 
 object Map {
     const val YANDEX_MAP_KIT = "com.yandex.android:mapkit:${LibVersion.YANDEX_MAP_KIT_VERSION}"
+}
+
+object Room {
+    const val RUN_TIME = "androidx.room:room-runtime:${LibVersion.ROOM_VERSION}"
+    const val KTX = "androidx.room:room-ktx:${LibVersion.ROOM_VERSION}"
+    const val RX_JAVA = "androidx.room:room-rxjava2:${LibVersion.ROOM_VERSION}"
+    const val COMPILER = "androidx.room:room-compiler:${LibVersion.ROOM_VERSION}"
 }
 
 object Tests {

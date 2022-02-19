@@ -1,4 +1,4 @@
-package softing.ubah4ukdev.mymapapplication
+package softing.ubah4ukdev.mymapapplication.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import softing.ubah4ukdev.mymapapplication.R
 import softing.ubah4ukdev.mymapapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
