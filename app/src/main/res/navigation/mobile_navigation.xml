@@ -17,9 +17,4 @@
         android:label="@string/title_markers"
         tools:layout="@layout/fragment_markers" />
 
-    <fragment
-        android:id="@+id/navigation_settings"
-        android:name="softing.ubah4ukdev.mymapapplication.ui.settings.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
 </navigation>

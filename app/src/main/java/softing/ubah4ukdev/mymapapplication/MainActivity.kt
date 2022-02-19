@@ -1,14 +1,13 @@
 package softing.ubah4ukdev.mymapapplication
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.yandex.mapkit.MapKitFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import softing.ubah4ukdev.mymapapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -22,10 +21,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val navView: BottomNavigationView = viewBinding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_map, R.id.navigation_markers, R.id.navigation_settings
+                R.id.navigation_map, R.id.navigation_markers
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
