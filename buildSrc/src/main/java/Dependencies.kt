@@ -30,6 +30,9 @@ object LibVersion {
     // Room
     const val ROOM_VERSION = "2.4.1"
 
+    // Koin
+    const val KOIN_VERSION = "3.1.5"
+
     // Tests
     const val JUNIT_VERSION = "4.13.2"
     const val TEST_EXT_JUNIT_VERSION = "1.1.3"
@@ -73,6 +76,14 @@ object Room {
     const val KTX = "androidx.room:room-ktx:${LibVersion.ROOM_VERSION}"
     const val RX_JAVA = "androidx.room:room-rxjava2:${LibVersion.ROOM_VERSION}"
     const val COMPILER = "androidx.room:room-compiler:${LibVersion.ROOM_VERSION}"
+}
+
+object Koin {
+    const val CORE = "io.insert-koin:koin-core:${LibVersion.KOIN_VERSION}"
+    const val ANDROID = "io.insert-koin:koin-android:${LibVersion.KOIN_VERSION}"
+    const val ANDROID_COMPAT = "io.insert-koin:koin-android-compat:${LibVersion.KOIN_VERSION}"
+    const val TEST = "io.insert-koin:koin-test:${LibVersion.KOIN_VERSION}"
+    const val TEST_JUNIT4 = "io.insert-koin:koin-test-junit4:${LibVersion.KOIN_VERSION}"
 }
 
 object Tests {

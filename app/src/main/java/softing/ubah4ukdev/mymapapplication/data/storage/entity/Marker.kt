@@ -1,6 +1,7 @@
 package softing.ubah4ukdev.mymapapplication.data.storage.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
 
 /**
@@ -18,10 +19,10 @@ import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
  *   v1.0
  */
 @Entity(
-    tableName = "tab_map_markers",
-    primaryKeys = ["markerId"]
+    tableName = "tab_map_markers"
 )
 data class Marker(
+    @PrimaryKey(autoGenerate = true)
     val markerId: Int,
     val latitude: Double,
     val longitude: Double,

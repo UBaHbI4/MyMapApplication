@@ -21,7 +21,7 @@ import softing.ubah4ukdev.mymapapplication.data.storage.entity.Marker
 @Database(
     exportSchema = true,
     entities = [Marker::class],
-    version = 1
+    version = 2
 )
 abstract class Storage : RoomDatabase() {
     abstract fun storageDao(): StorageDao

@@ -95,6 +95,13 @@ dependencies {
     implementation(Room.RUN_TIME)
     annotationProcessor(Room.COMPILER)
 
+    // Koin
+    implementation(Koin.ANDROID)
+    implementation(Koin.ANDROID_COMPAT)
+    implementation(Koin.CORE)
+    implementation(Koin.TEST)
+    implementation(Koin.TEST_JUNIT4)
+
     // Tests
     testImplementation(Tests.JUNIT)
     androidTestImplementation(Tests.TEST_EXT_JUNIT)

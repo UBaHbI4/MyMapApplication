@@ -1,5 +1,6 @@
 package softing.ubah4ukdev.mymapapplication.domain.repository
 
+import softing.ubah4ukdev.mymapapplication.domain.AppState
 import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
 
 /**
@@ -18,11 +19,8 @@ import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
  */
 interface CacheRepository {
 
-    suspend fun addMarker(marker: MarkerDomain)
-
-    suspend fun getMarkers(): List<MarkerDomain>
-
-    suspend fun removeMarker(markerId: Int)
-
-    suspend fun updateMarker(marker: MarkerDomain)
+    suspend fun addMarker(marker: MarkerDomain): AppState
+    suspend fun getMarkers(): AppState
+    suspend fun removeMarker(markerId: Int): AppState
+    suspend fun updateMarker(marker: MarkerDomain): AppState
 }

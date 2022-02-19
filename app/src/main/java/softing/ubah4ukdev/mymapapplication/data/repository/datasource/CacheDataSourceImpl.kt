@@ -1,8 +1,13 @@
 package softing.ubah4ukdev.mymapapplication.data.repository.datasource
 
+import com.yandex.mapkit.geometry.Point
 import softing.ubah4ukdev.mymapapplication.data.mappers.markerToDataLayer
 import softing.ubah4ukdev.mymapapplication.data.storage.Storage
+import softing.ubah4ukdev.mymapapplication.domain.AppState
 import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
+import softing.ubah4ukdev.mymapapplication.domain.models.MarkersResult
+import softing.ubah4ukdev.mymapapplication.domain.models.NewMarkerResult
+import softing.ubah4ukdev.mymapapplication.domain.models.OperationResult
 
 /**
  *   Project: MyMapApplication
@@ -20,23 +25,49 @@ import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
  */
 class CacheDataSourceImpl(private val storage: Storage) : CacheDataSource {
     override suspend fun addMarker(marker: MarkerDomain) =
-        storage
-            .storageDao()
-            .addMarker(markerToDataLayer(marker))
+        try {
+            val result = storage
+                .storageDao()
+                .addMarker(markerToDataLayer(marker))
+            AppState.Success(
+                NewMarkerResult(
+                    result > 0, Point(
+                        marker.latitude, marker.longitude
+                    )
+                )
+            )
+        } catch (err: Exception) {
+            AppState.Error(err)
+        }
 
-    override suspend fun getMarkers(): List<MarkerDomain> =
-        storage
-            .storageDao()
-            .getMarkers()
-            .map { it.toDomain() }
+    override suspend fun getMarkers() =
+        try {
+            val result = storage
+                .storageDao()
+                .getMarkers()
+                .map { it.toDomain() }
+            AppState.Success(MarkersResult(result))
+        } catch (err: Exception) {
+            AppState.Error(err)
+        }
 
     override suspend fun removeMarker(markerId: Int) =
-        storage
-            .storageDao()
-            .removeMarker(markerId)
+        try {
+            val result = storage
+                .storageDao()
+                .removeMarker(markerId)
+            AppState.Success(OperationResult(result > 0))
+        } catch (err: Exception) {
+            AppState.Error(err)
+        }
 
     override suspend fun updateMarker(marker: MarkerDomain) =
-        storage
-            .storageDao()
-            .updateMarker(markerToDataLayer(marker))
+        try {
+            val result = storage
+                .storageDao()
+                .updateMarker(markerToDataLayer(marker))
+            AppState.Success(OperationResult(result > 0))
+        } catch (err: Exception) {
+            AppState.Error(err)
+        }
 }
