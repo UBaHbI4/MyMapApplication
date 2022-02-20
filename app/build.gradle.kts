@@ -14,6 +14,18 @@ val currentDate: String = sdf.format(Date())
 android {
     compileSdk = Config.COMPILE_SDK
 
+    signingConfigs {
+        create("releaseSign")
+        {
+            val properties = Properties()
+            properties.load(FileInputStream(file("./../conf.properties")))
+            storeFile = file("./../key.jks")
+            storePassword = properties.getProperty("storePassword", "")
+            keyAlias = properties.getProperty("keyAlias", "")
+            keyPassword = properties.getProperty("keyPassword", "")
+        }
+    }
+
     defaultConfig {
         applicationId = Config.APPLICATION_ID
         minSdk = Config.MIN_SDK_VERSION
@@ -36,6 +48,7 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("releaseSign")
         }
     }
 

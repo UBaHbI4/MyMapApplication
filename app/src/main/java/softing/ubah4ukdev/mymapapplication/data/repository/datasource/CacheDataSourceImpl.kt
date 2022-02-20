@@ -4,10 +4,7 @@ import com.yandex.mapkit.geometry.Point
 import softing.ubah4ukdev.mymapapplication.data.mappers.markerToDataLayer
 import softing.ubah4ukdev.mymapapplication.data.storage.Storage
 import softing.ubah4ukdev.mymapapplication.domain.AppState
-import softing.ubah4ukdev.mymapapplication.domain.models.MarkerDomain
-import softing.ubah4ukdev.mymapapplication.domain.models.MarkersResult
-import softing.ubah4ukdev.mymapapplication.domain.models.NewMarkerResult
-import softing.ubah4ukdev.mymapapplication.domain.models.OperationResult
+import softing.ubah4ukdev.mymapapplication.domain.models.*
 
 /**
  *   Project: MyMapApplication
@@ -31,7 +28,7 @@ class CacheDataSourceImpl(private val storage: Storage) : CacheDataSource {
                 .addMarker(markerToDataLayer(marker))
             AppState.Success(
                 NewMarkerResult(
-                    result > 0, Point(
+                    result > ZERO_INT, Point(
                         marker.latitude, marker.longitude
                     )
                 )
@@ -51,12 +48,23 @@ class CacheDataSourceImpl(private val storage: Storage) : CacheDataSource {
             AppState.Error(err)
         }
 
+    override suspend fun getMarkerById(markerId: Int): AppState =
+        try {
+            val result = storage
+                .storageDao()
+                .getMarkerById(markerId = markerId)
+                .toDomain()
+            AppState.Success(MarkerResult(result = result))
+        } catch (err: Exception) {
+            AppState.Error(err)
+        }
+
     override suspend fun removeMarker(markerId: Int) =
         try {
             val result = storage
                 .storageDao()
                 .removeMarker(markerId)
-            AppState.Success(OperationResult(result > 0))
+            AppState.Success(OperationResult(result > ZERO_INT))
         } catch (err: Exception) {
             AppState.Error(err)
         }
@@ -66,8 +74,12 @@ class CacheDataSourceImpl(private val storage: Storage) : CacheDataSource {
             val result = storage
                 .storageDao()
                 .updateMarker(markerToDataLayer(marker))
-            AppState.Success(OperationResult(result > 0))
+            AppState.Success(OperationResult(result > ZERO_INT))
         } catch (err: Exception) {
             AppState.Error(err)
         }
+
+    companion object {
+        private const val ZERO_INT = 0
+    }
 }

@@ -10,10 +10,8 @@ import softing.ubah4ukdev.mymapapplication.data.repository.datasource.CacheDataS
 import softing.ubah4ukdev.mymapapplication.data.repository.datasource.CacheDataSourceImpl
 import softing.ubah4ukdev.mymapapplication.data.storage.Storage
 import softing.ubah4ukdev.mymapapplication.domain.repository.CacheRepository
-import softing.ubah4ukdev.mymapapplication.domain.uscases.AddMarkerUseCase
-import softing.ubah4ukdev.mymapapplication.domain.uscases.GetMarkersUseCase
-import softing.ubah4ukdev.mymapapplication.domain.uscases.RemoveMarkerUseCase
-import softing.ubah4ukdev.mymapapplication.domain.uscases.UpdateMarkerUseCase
+import softing.ubah4ukdev.mymapapplication.domain.uscases.*
+import softing.ubah4ukdev.mymapapplication.ui.edit.EditViewModel
 import softing.ubah4ukdev.mymapapplication.ui.map.MapViewModel
 import softing.ubah4ukdev.mymapapplication.ui.markers.MarkersViewModel
 
@@ -46,7 +44,17 @@ object Di {
         }
 
         viewModel() {
-            MarkersViewModel()
+            MarkersViewModel(
+                getMarkersUseCase = get(),
+                removeMarkerUseCase = get()
+            )
+        }
+
+        viewModel() {
+            EditViewModel(
+                updateMarkerUseCase = get(),
+                getMarkerByIdUseCase = get()
+            )
         }
     }
 
@@ -57,6 +65,10 @@ object Di {
 
         factory<GetMarkersUseCase> {
             GetMarkersUseCase(repository = get())
+        }
+
+        factory<GetMarkerByIdUseCase> {
+            GetMarkerByIdUseCase(repository = get())
         }
 
         factory<RemoveMarkerUseCase> {

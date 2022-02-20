@@ -19,19 +19,25 @@ class MapViewModel(
 
     override fun saveMarker(position: Point) =
         viewModelScopeCoroutine.launch {
-            getOperationLiveData()
-                .postValue(
-                    addMarkerUseCase.execute(
-                        MarkerDomain(
-                            latitude = position.latitude,
-                            longitude = position.longitude
-                        )
+            getOperationLiveData().postValue(AppState.Loading)
+            addMarker(position)
+        }
+
+    private suspend fun addMarker(position: Point) {
+        getOperationLiveData()
+            .postValue(
+                addMarkerUseCase.execute(
+                    MarkerDomain(
+                        latitude = position.latitude,
+                        longitude = position.longitude
                     )
                 )
-        }
+            )
+    }
 
     override fun getMarkers() =
         viewModelScopeCoroutine.launch {
+            getOperationLiveData().postValue(AppState.Loading)
             getOperationLiveData()
                 .postValue(getMarkersUseCase.execute())
         }
