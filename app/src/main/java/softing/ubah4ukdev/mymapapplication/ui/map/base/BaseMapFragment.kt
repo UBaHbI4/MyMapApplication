@@ -3,9 +3,11 @@ package softing.ubah4ukdev.mymapapplication.ui.map.base
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -66,24 +68,23 @@ abstract class BaseMapFragment : Fragment(R.layout.fragment_map) {
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)-> {
                 locationManager = requireActivity()
                     .getSystemService(Context.LOCATION_SERVICE) as LocationManager?
 
-                locationManager
-                    ?.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
+                    locationManager?.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            ZERO_LONG,
+                            ZERO_FLOAT,
+                            locationListener
+                        )
+
+                    locationManager?.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
                         ZERO_LONG,
-                        ZERO_FLOAT,
-                        locationListener
-                    )
-                locationManager
-                    ?.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER,
-                        ZERO_LONG,
-                        ZERO_FLOAT,
-                        locationListener
-                    )
+                            ZERO_FLOAT,
+                            locationListener
+                        )
                 useMap(true)
             }
             else -> {
@@ -93,7 +94,8 @@ abstract class BaseMapFragment : Fragment(R.layout.fragment_map) {
     }
 
     private fun verifyPermission() {
-        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION))
     }
 
     private fun useMap(use: Boolean) =
@@ -105,7 +107,24 @@ abstract class BaseMapFragment : Fragment(R.layout.fragment_map) {
             viewBinding.mapView.isVisible = false
         }
 
-    private val locationListener: LocationListener = LocationListener { location ->
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            movePosition(location)
+        }
+
+        override fun onProviderDisabled(provider: String) {}
+
+        @SuppressLint("MissingPermission")
+        override fun onProviderEnabled(provider: String) {
+            locationManager?.getLastKnownLocation(provider)?.let {
+                movePosition(it)
+            }
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+    }
+
+    private fun movePosition(location: Location) {
         viewBinding.mapView.map.move(
             CameraPosition(
                 Point(location.latitude, location.longitude),
@@ -133,6 +152,36 @@ abstract class BaseMapFragment : Fragment(R.layout.fragment_map) {
 
         stopUpdates()
     }
+
+
+    //  private val locationListener: LocationListener = LocationListener { location ->
+//        viewBinding.mapView.map.move(
+//            CameraPosition(
+//                Point(location.latitude, location.longitude),
+//                DEF_ZOOM,
+//                ZERO_FLOAT,
+//                ZERO_FLOAT
+//            ),
+//            Animation(Animation.Type.SMOOTH, ZERO_FLOAT),
+//            null
+//        )
+//
+//        /* Если в bundle есть координаты, значит мы выбрали переход к выбранной точке
+//        * Получаем координаты, перемещаем карту к точке и удаляем из bundle координаты, чтобы
+//        * можно было вернуться к стартовой точке на карте
+//        */
+//        getLocationToMove()
+//
+//        mapObjects?.addPlacemark(
+//            Point(location.latitude, location.longitude),
+//            ImageProvider.fromResource(
+//                requireContext(),
+//                R.drawable.image_location_my
+//            )
+//        )
+//
+//        stopUpdates()
+ //  }
 
     private fun getLocationToMove() {
         val lon = NavHostFragment.findNavController(this).currentBackStackEntry?.savedStateHandle
@@ -191,6 +240,6 @@ abstract class BaseMapFragment : Fragment(R.layout.fragment_map) {
     companion object {
         const val DEF_ZOOM = 16.0f
         const val ZERO_FLOAT = 0f
-        const val ZERO_LONG = 0L
+        const val ZERO_LONG = 10000L
     }
 }
